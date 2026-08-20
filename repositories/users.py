@@ -2,6 +2,7 @@ from collections.abc import Sequence
 from sqlalchemy.ext.asyncio import AsyncSession
 from models import User
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from dto import ResponseMessageDTO
 
 
@@ -16,6 +17,15 @@ async def get_users(db: AsyncSession) -> Sequence[User]:
 
 async def get_user(user_id: int, db: AsyncSession) -> User | None:
     sql_query = select(User).where(User.id == user_id)
+    result = await db.scalars(sql_query)
+
+    user: User | None = result.first()
+
+    return user
+
+
+async def get_user_detail(user_id: int, db: AsyncSession) -> User | None:
+    sql_query = select(User).options(selectinload(User.event_list)).where(User.id == user_id)
     result = await db.scalars(sql_query)
 
     user: User | None = result.first()
