@@ -6,7 +6,7 @@ class EventBriefDto(BaseModel):
     id: int
     title: str
     description: str | None
-    guest_limit: str
+    guest_limit: int
     created_at: datetime
     started_at: datetime
     finished_at: datetime
