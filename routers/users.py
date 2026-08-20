@@ -38,7 +38,7 @@ async def create_user(new_user: UserCreateDto, db: AsyncSession = Depends(get_db
     return UserResponseDTO.model_validate(user)
 
 
-@router.delete("/{user_id}", response_model=UserResponseDTO)
+@router.delete("/{user_id}", response_model=ResponseMessageDTO)
 async def delete_user(user_id: int, db: AsyncSession = Depends(get_db)) -> ResponseMessageDTO:
     try:
         result = await user_service.delete_user(user_id, db)

@@ -7,7 +7,7 @@ from dto import ResponseMessageDTO
 
 
 async def get_events(db: AsyncSession) -> Sequence[Event]:
-    sql_query = select(Event)
+    sql_query = select(Event).options(selectinload(Event.author))
     result = await db.scalars(sql_query)
 
     events: Sequence[Event] = result.all()
