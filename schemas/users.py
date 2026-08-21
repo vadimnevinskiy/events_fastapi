@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
+from enums import RoleType
 
 
 class EventBriefDto(BaseModel):
@@ -14,9 +15,19 @@ class EventBriefDto(BaseModel):
     model_config = {"from_attributes": True}
 
 
+class RoleBriefDTO(BaseModel):
+    id: int
+    title: str
+    code: RoleType
+    description: str
+
+    model_config = {"from_attributes": True}
+
+
 class UserDTO(BaseModel):
     name: str
     email: EmailStr
+    role_id: int
 
 
 class UserCreateDto(UserDTO):
@@ -31,6 +42,7 @@ class UserResponseDTO(UserDTO):
 
 class UserDetailResponseDto(UserDTO):
     id: int
+    role: RoleBriefDTO
     event_list: list[EventBriefDto]
 
     model_config = {"from_attributes": True}
