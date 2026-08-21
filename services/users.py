@@ -59,13 +59,14 @@ async def update_user(user_id: int, new_user: UserCreateDto, db: AsyncSession) -
     if user is None:
         raise UserNotFound(user_id)
 
-    existing_email: User | None = await user_repository.get_user_by_email(new_user.email, db)
+    existing_user: User | None = await user_repository.get_user_by_email(new_user.email, db)
 
-    if existing_email is not None:
+    if existing_user is not None and existing_user.id != user.id:
         raise UserAlreadyExists(user.email)
 
     user.name = new_user.name
     user.email = new_user.email
+    user.role_id = new_user.role_id
 
     updated_user: User = await user_repository.update_user(user, db)
 

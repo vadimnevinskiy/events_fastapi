@@ -55,6 +55,6 @@ async def update_user(user_id: int, new_user: UserCreateDto, db: AsyncSession = 
     except UserNotFound as exc_not_found:
         raise HTTPException(status_code=404, detail=str(exc_not_found))
     except UserAlreadyExists as exc_exists:
-        raise HTTPException(status_code=404, detail=str(exc_exists))
+        raise HTTPException(status_code=409, detail=str(exc_exists))
 
     return UserResponseDTO.model_validate(user)

@@ -25,7 +25,7 @@ async def get_user(user_id: int, db: AsyncSession) -> User | None:
 
 
 async def get_user_detail(user_id: int, db: AsyncSession) -> User | None:
-    sql_query = select(User).options(selectinload(User.event_list)).where(User.id == user_id)
+    sql_query = select(User).options(selectinload(User.role), selectinload(User.event_list)).where(User.id == user_id)
     result = await db.scalars(sql_query)
 
     user: User | None = result.first()
