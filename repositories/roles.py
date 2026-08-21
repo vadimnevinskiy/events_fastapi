@@ -2,6 +2,7 @@ from collections.abc import Sequence
 from sqlalchemy.ext.asyncio import AsyncSession
 from models import Role
 from sqlalchemy import select
+from dto import ResponseMessageDTO
 
 
 async def get_roles(db: AsyncSession) -> Sequence[Role]:
@@ -21,3 +22,26 @@ async def get_role(role_id: int, db: AsyncSession) -> Role:
 
     return role
 
+
+async def create_role(role: Role, db: AsyncSession) -> Role:
+    db.add(role)
+    await db.commit()
+    await db.refresh(role)
+
+    return role
+
+
+async def delete_role(role: Role, db: AsyncSession) -> ResponseMessageDTO:
+    """Created roles cannot be deleted."""
+    # await db.delete(role)
+    # await db.commit()
+    #
+    # return ResponseMessageDTO(status_code=200, message=f"Role {role.id} was deleted")
+    pass
+
+
+async def update_role(role: Role, db: AsyncSession) -> Role:
+    await db.commit()
+    await db.refresh(role)
+
+    return role
