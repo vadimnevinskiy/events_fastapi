@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from models import Role
 from sqlalchemy import select
 from dto import ResponseMessageDTO
+from enums import RoleType
 
 
 async def get_roles(db: AsyncSession) -> Sequence[Role]:
@@ -14,8 +15,17 @@ async def get_roles(db: AsyncSession) -> Sequence[Role]:
     return roles
 
 
-async def get_role(role_id: int, db: AsyncSession) -> Role:
+async def get_role(role_id: int, db: AsyncSession) -> Role | None:
     sql_query = select(Role).where(Role.id == role_id)
+    result = await db.scalars(sql_query)
+
+    role: Role | None = result.first()
+
+    return role
+
+
+async def get_role_by_code(code: RoleType, db: AsyncSession) -> Role | None:
+    sql_query = select(Role).where(Role.code == code)
     result = await db.scalars(sql_query)
 
     role: Role | None = result.first()
