@@ -37,7 +37,7 @@ async def create_user(new_user: UserCreateDto, db: AsyncSession) -> User:
     if user is not None:
         raise UserAlreadyExists(str(new_user.email))
 
-    user: User = User(name=new_user.name, email=new_user.email)
+    user: User = User(name=new_user.name, email=new_user.email, role_id=new_user.role_id)
 
     return await user_repository.create_user(user, db)
 
