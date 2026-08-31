@@ -11,15 +11,21 @@ class UserBriefTDO(BaseModel):
 
 
 class EventDTO(BaseModel):
+    """Base schema for Event"""
     title: str
     description: str
     guest_limit: int
-    author_id: int
     started_at: datetime
     finished_at: datetime
 
 
 class EventCreateDTO(EventDTO):
+    """Schema for creating an Event"""
+    author_id: int
+
+
+class EventUpdateDTO(EventDTO):
+    """Schema without 'author_id'"""
     pass
 
 

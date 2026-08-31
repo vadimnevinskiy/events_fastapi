@@ -1,7 +1,7 @@
 from collections.abc import Sequence
 from sqlalchemy.ext.asyncio import AsyncSession
 from models import Event, User
-from schemas import EventCreateDTO
+from schemas import EventCreateDTO, EventUpdateDTO
 from repositories import events as event_repository
 from repositories import users as user_repository
 from errors import EventNotFound, UserNotFound
@@ -54,7 +54,7 @@ async def delete_event(event_id: int, db: AsyncSession) -> ResponseMessageDTO:
     return result
 
 
-async def update_event(event_id: int, new_event: EventCreateDTO, db: AsyncSession) -> Event:
+async def update_event(event_id: int, new_event: EventUpdateDTO, db: AsyncSession) -> Event:
     event: Event | None = await event_repository.get_event(event_id, db)
 
     if event is None:

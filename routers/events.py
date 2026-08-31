@@ -2,7 +2,7 @@ from collections.abc import Sequence
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from database import get_db
-from schemas import EventCreateDTO, EventResponseDTO
+from schemas import EventCreateDTO, EventResponseDTO, EventUpdateDTO
 from models import Event
 from dto import ResponseMessageDTO
 from services import event as event_service
@@ -50,7 +50,7 @@ async def delete_event(event_id: int, db: AsyncSession = Depends(get_db)) -> Res
 
 
 @router.put("/{event_id}", response_model=EventResponseDTO)
-async def update_event(event_id: int, new_event: EventCreateDTO,
+async def update_event(event_id: int, new_event: EventUpdateDTO,
                        db: AsyncSession = Depends(get_db)) -> EventResponseDTO:
     try:
         event: Event = await event_service.update_event(event_id, new_event, db)
