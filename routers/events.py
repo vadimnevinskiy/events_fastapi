@@ -29,10 +29,10 @@ async def get_event(event_id: int, db: AsyncSession = Depends(get_db)) -> EventR
 
 
 @router.post("/", response_model=EventResponseDTO)
-async def create_event(new_event: EventCreateDTO, author_id: int,
+async def create_event(new_event: EventCreateDTO,
                        db: AsyncSession = Depends(get_db)) -> EventResponseDTO:
     try:
-        event: Event = await event_service.create_event(new_event, author_id, db)
+        event: Event = await event_service.create_event(new_event, db)
     except UserNotFound as exc:
         raise HTTPException(status_code=404, detail=str(exc))
 

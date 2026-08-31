@@ -23,11 +23,11 @@ async def get_event(event_id: int, db: AsyncSession) -> Event:
     return event
 
 
-async def create_event(new_event: EventCreateDTO, author_id: int, db: AsyncSession) -> Event:
-    user: User | None = await user_repository.get_user(author_id, db)
+async def create_event(new_event: EventCreateDTO, db: AsyncSession) -> Event:
+    user: User | None = await user_repository.get_user(new_event.author_id, db)
 
     if user is None:
-        raise UserNotFound(author_id)
+        raise UserNotFound(new_event.author_id)
 
     event_inst: Event = Event(
         title=new_event.title,
